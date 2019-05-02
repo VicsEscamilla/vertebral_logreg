@@ -19,7 +19,7 @@ class NeuralNetwork(object):
             self._sigprime = lambda x : self._sigmoid(x)*(1-self._sigmoid(x))
 
             training, self._tests = self._load_data("column_3C.dat", create_files=False)
-            self._train(training, batch_size=10, epochs=100, eta=0.15)
+            self._train(training, batch_size=10, epochs=500, eta=0.15)
             self._save_neural_network()
             print("Training complete!")
         else:
@@ -83,12 +83,12 @@ class NeuralNetwork(object):
 
         def split_train_data(data):
             data = [x.strip().split(separator) for x in data]
-            return list(zip(np.array([np.reshape([float(i) for i in x[:-1]], (6, 1)) for x in data], dtype=np.float128), 
+            return list(zip(np.array([np.reshape([float(i)/10.0 for i in x[:-1]], (6, 1)) for x in data], dtype=np.float128), 
                     np.array([_to_vector(x[-1]) for x in data], dtype=np.float128)))
 
         def split_test_data(data):
             data = [x.strip().split(separator) for x in data]
-            return list(zip(np.array([np.reshape([float(i) for i in x[:-1]], (6, 1)) for x in data], dtype=np.float128), 
+            return list(zip(np.array([np.reshape([float(i)/10.0 for i in x[:-1]], (6, 1)) for x in data], dtype=np.float128), 
                     np.array([_get_value(x[-1]) for x in data], dtype=np.float128)))
 
         def save_data(filename, data):
